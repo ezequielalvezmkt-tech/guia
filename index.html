@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo armamos un ecommerce con Claude y GitHub</title>
+<meta name="description" content="Guía: cómo armamos la web, el control de stock y los anuncios de Libros para Emprendedor Paraguay usando Claude y GitHub.">
+<meta property="og:title" content="Cómo armamos un ecommerce con Claude y GitHub">
+<meta property="og:description" content="El caso de Libros para Emprendedor Paraguay: web, stock, pedidos y anuncios, paso a paso.">
+<meta name="theme-color" content="#0f1b2d">
+<style>
+  :root{
+    --bg:#0f1b2d; --bg2:#14243a; --card:#182b45; --text:#eaf0f7; --muted:#a9b8cc;
+    --accent:#f5b83d; --accent-ink:#1b1403; --line:#27405f; --wa:#25d366;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+  header.hero{padding:56px 0 36px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+  .tag{display:inline-block;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--accent);border-radius:99px;padding:4px 12px;margin-bottom:18px}
+  h1{font-size:clamp(1.8rem,6vw,2.6rem);line-height:1.15;margin:0 0 16px}
+  .lead{color:var(--muted);font-size:1.08rem;margin:0 0 24px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-weight:700;text-decoration:none;border-radius:12px;padding:14px 22px;font-size:1rem;
+    transition:transform .15s}
+  .btn:active{transform:scale(.97)}
+  .btn-wa{background:var(--wa);color:#05260f}
+  .btn-ig{background:transparent;color:var(--text);border:1.5px solid var(--line)}
+  .btn-accent{background:var(--accent);color:var(--accent-ink)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+  nav.toc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 8px}
+  nav.toc a{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;color:var(--text);text-decoration:none;font-size:.95rem}
+  nav.toc a span{color:var(--accent);font-weight:700;margin-right:6px}
+  section{padding:40px 0;border-top:1px solid var(--line)}
+  h2{font-size:1.5rem;line-height:1.25;margin:0 0 14px}
+  h2 .n{color:var(--accent);margin-right:8px}
+  p{margin:0 0 14px}
+  .steps{list-style:none;counter-reset:s;padding:0;margin:18px 0}
+  .steps li{counter-increment:s;position:relative;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:14px 16px 14px 56px;margin-bottom:10px}
+  .steps li::before{content:counter(s);position:absolute;left:14px;top:14px;width:28px;height:28px;
+    border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:800;
+    display:flex;align-items:center;justify-content:center;font-size:.9rem}
+  .steps b{color:#fff}
+  ul.list{padding-left:20px;margin:14px 0}
+  ul.list li{margin-bottom:8px}
+  .callout{background:var(--card);border-left:4px solid var(--accent);border-radius:10px;
+    padding:14px 16px;margin:18px 0}
+  .grid{display:grid;gap:10px;margin:18px 0}
+  .mod{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .mod h3{margin:0 0 4px;font-size:1rem;color:var(--accent)}
+  .mod p{margin:0;color:var(--muted);font-size:.95rem}
+  @media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+  .final{text-align:center;padding:48px 0 110px}
+  .final .cta-row{justify-content:center}
+  footer{color:var(--muted);font-size:.85rem;text-align:center;padding-bottom:110px}
+  .sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(15,27,45,.96);
+    backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px 16px;z-index:10}
+  .sticky .btn{width:100%;max-width:520px;margin:0 auto;display:flex}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Caso real · Paraguay</span>
+    <h1>Cómo armamos un ecommerce completo con Claude y GitHub</h1>
+    <p class="lead">Web, control de stock, registro de pedidos y anuncios en Meta para <b>Libros para Emprendedor Paraguay</b>, el negocio de Agustín Duarte. Sin agencia de desarrollo ni sistemas caros.</p>
+    <div class="cta-row">
+      <a class="btn btn-wa js-wa" href="#" target="_blank" rel="noopener">Quiero lo mismo para mi negocio</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p>Agustín arrancó con una ventaja clara: en Paraguay el rubro de libros para emprendedores casi no está explotado con publicidad paga. Replicamos la estrategia que ya funciona en Libros Para Emprendedor Argentina y la adaptamos a su mercado.</p>
+
+  <nav class="toc" aria-label="Contenido">
+    <a href="#web"><span>1</span>La página web</a>
+    <a href="#procesos"><span>2</span>Procesos con Claude</a>
+    <a href="#stock"><span>3</span>Stock y pedidos</a>
+    <a href="#ads"><span>4</span>Anuncios</a>
+  </nav>
+
+  <section id="web">
+    <h2><span class="n">1</span>Cómo armamos la página web con Claude y GitHub</h2>
+    <p>La web se construye conversando con Claude, que escribe el código, y se publica gratis desde GitHub. No hace falta contratar desarrolladores ni pagar mensualidades de plataformas para tener un sitio rápido y a medida.</p>
+    <ol class="steps">
+      <li><b>Definimos el negocio.</b> Le contamos a Claude qué vende Agustín, a quién, qué combos ofrece y cómo quiere recibir los pedidos.</li>
+      <li><b>Claude diseña y programa el sitio.</b> Genera la estructura, el catálogo, las fichas de producto y un diseño pensado para celular, que es desde donde compra la mayoría.</li>
+      <li><b>Lo guardamos en GitHub.</b> Cada versión queda registrada, así cualquier cambio se puede revisar o deshacer sin perder nada.</li>
+      <li><b>Lo publicamos con GitHub Pages.</b> El sitio queda online con su propia dirección, rápido y sin costo de hosting.</li>
+      <li><b>Iteramos.</b> Cambiar un precio, sumar un combo o ajustar un texto se pide en lenguaje normal y se publica en minutos.</li>
+    </ol>
+    <div class="callout"><b>Lo que ganás:</b> un sitio propio, sin depender de una plataforma ni de un programador para cada cambio, y con un costo de mantenimiento muy bajo.</div>
+  </section>
+
+  <section id="procesos">
+    <h2><span class="n">2</span>Cómo usamos Claude para optimizar procesos</h2>
+    <p>Claude no es solo para escribir textos: lo usamos como un equipo de trabajo que se encarga de las tareas repetitivas del negocio.</p>
+    <ul class="list">
+      <li><b>Herramientas a medida:</b> planillas, paneles de control y calculadoras (por ejemplo, de rentabilidad por producto) que se arman en horas.</li>
+      <li><b>Textos de venta:</b> descripciones de producto, guiones para anuncios y mensajes de email con el tono de tu marca.</li>
+      <li><b>Análisis de números:</b> cruzamos lo que reportan los anuncios con lo que realmente se vendió, para decidir con datos reales.</li>
+      <li><b>Automatizaciones:</b> tareas que antes se hacían a mano, como pasar pedidos a una planilla o descontar stock, se hacen solas.</li>
+      <li><b>Procesos documentados:</b> cada procedimiento queda escrito, así el negocio no depende de que una sola persona se acuerde cómo se hace.</li>
+    </ul>
+    <p>El resultado: menos horas en tareas operativas y más tiempo para vender y mejorar la oferta.</p>
+  </section>
+
+  <section id="stock">
+    <h2><span class="n">3</span>Gestión de stock, ingresos y registro de pedidos</h2>
+    <p>En lugar de pagar un sistema de gestión, armamos uno a medida: una app web publicada en GitHub Pages que guarda todo en una planilla de Google Sheets. La planilla es la base de datos, así que la información es tuya y no hay costo mensual de software.</p>
+    <div class="grid">
+      <div class="mod"><h3>Stock</h3><p>Cada título con su costo, precio de venta y cantidad disponible, más el valor total del stock.</p></div>
+      <div class="mod"><h3>Ingresos de mercadería</h3><p>Se registra cada compra al proveedor y el stock sube solo.</p></div>
+      <div class="mod"><h3>Registro de pedidos</h3><p>Ventas con varios títulos, cliente y precio final cobrado. El stock se descuenta automáticamente.</p></div>
+      <div class="mod"><h3>Clientes</h3><p>Cada venta queda ligada a un cliente: sabés quiénes compran más y cuánto gastan.</p></div>
+      <div class="mod"><h3>Historial</h3><p>Todos los movimientos y ventas, con filtro por fechas y totales.</p></div>
+      <div class="mod"><h3>Dashboard</h3><p>Ventas, costo de la mercadería vendida y ganancia por período, cliente y usuario.</p></div>
+      <div class="mod"><h3>Pedido a proveedor</h3><p>Sugiere qué reponer según los títulos con stock bajo o agotado.</p></div>
+    </div>
+    <ul class="list">
+      <li>Funciona con varios usuarios, así tu equipo carga ventas y stock sin pisarse.</li>
+      <li>Cualquier venta se puede anular y el stock vuelve solo.</li>
+      <li>El detalle del pedido se exporta para enviárselo al cliente.</li>
+    </ul>
+    <div class="callout">Lo construimos por etapas: primero lo esencial (stock y ventas) y después sumamos funciones a medida que el negocio las necesitó. Así nunca se paga por algo que no se usa.</div>
+  </section>
+
+  <section id="ads">
+    <h2><span class="n">4</span>Anuncios: una CBO de 6 anuncios con presupuesto bajo</h2>
+    <p>No armamos muchas campañas chicas. Armamos una sola campaña con presupuesto a nivel campaña (CBO) y 6 anuncios adentro. Con presupuesto bajo, concentrar todo en un solo lugar le da a Meta más datos por anuncio y le permite aprender más rápido.</p>
+    <div class="grid">
+      <div class="mod"><h3>Una campaña</h3><p>CBO de ventas por producto o público, con presupuesto diario acotado.</p></div>
+      <div class="mod"><h3>Seis anuncios</h3><p>Ángulos y formatos distintos (ganchos, video, foto) para descubrir qué le habla mejor al público.</p></div>
+    </div>
+    <h3>Cómo la operamos</h3>
+    <ol class="steps">
+      <li><b>Dejamos que aprenda.</b> No tocamos la campaña en las primeras horas ni decidimos a mitad de día.</li>
+      <li><b>Evaluamos por días completos.</b> Miramos jornadas cerradas, nunca un momento del día.</li>
+      <li><b>Subimos el presupuesto de a poco.</b> Aumentos de hasta alrededor del 20%, para no desestabilizar el aprendizaje.</li>
+      <li><b>Contrastamos con las ventas reales.</b> Meta suele atribuirse más compras de las que hubo, así que cruzamos con los pedidos de la tienda.</li>
+      <li><b>Cuidamos a los ganadores.</b> Un anuncio que funciona no se edita: se duplica usando el ID de la publicación para conservar reacciones y comentarios.</li>
+      <li><b>Reemplazamos lo que no rinde.</b> Los anuncios nuevos entran a la misma campaña y compiten con los que ya andan bien.</li>
+    </ol>
+    <p>En Paraguay hay otra ventaja: muy pocos negocios del rubro pautan con este nivel de orden, por lo que se puede ganar visibilidad sin grandes inversiones.</p>
+  </section>
+
+  <section class="final">
+    <h2>¿Querés lo mismo para tu negocio?</h2>
+    <p>Todo esto se puede adaptar a tu rubro: un sitio propio, un sistema de stock y pedidos a tu medida y una estructura de anuncios ordenada para crecer sin tirar plata.</p>
+    <p>El primer paso es una conversación corta para entender qué vendés, cómo trabajás hoy y qué te está frenando. Con eso armamos una propuesta con etapas y alcance claros.</p>
+    <div class="cta-row">
+      <a class="btn btn-wa js-wa" href="#" target="_blank" rel="noopener">Escribime por WhatsApp</a>
+      <a class="btn btn-ig js-ig" href="#" target="_blank" rel="noopener">Ver mi Instagram</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>Guía basada en un caso real de consultoría de ecommerce.</footer>
+
+<div class="sticky">
+  <a class="btn btn-accent js-wa" href="#" target="_blank" rel="noopener">Hablemos por WhatsApp</a>
+</div>
+
+<script>
+  /* ====== EDITÁ SOLO ESTAS 3 LÍNEAS ====== */
+  var WHATSAPP = "549XXXXXXXXXX";   // número con código de país, sin + ni espacios (Argentina: 549 + código de área + número)
+  var INSTAGRAM = "tu_usuario";     // usuario de Instagram, sin @
+  var MENSAJE = "Hola! Vi la guía de cómo armaron el ecommerce con Claude y GitHub y quiero algo así para mi negocio.";
+  /* ======================================= */
+
+  var wa = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(MENSAJE);
+  var ig = "https://instagram.com/" + INSTAGRAM;
+  document.querySelectorAll(".js-wa").forEach(function(a){ a.href = wa; });
+  document.querySelectorAll(".js-ig").forEach(function(a){ a.href = ig; });
+</script>
+</body>
+</html>
